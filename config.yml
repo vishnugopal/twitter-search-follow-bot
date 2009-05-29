@@ -1,0 +1,8 @@
+
+username: 'mobshare'
+password: 'our1account'
+
+# any of these words
+search_words: ['mobile', 'mms', 'mobshare', 'phone', '#mobile', '#phone', 'india', '#india', 'twitter']
+
+debug: true
