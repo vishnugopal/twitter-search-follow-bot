@@ -11,7 +11,9 @@ Configure:
 
 config.yml should be self explanatory.
 
-You can monitor 
+You can monitor specific keywords from users in particular locations and belonging to particular directories. 
+
+Currently it identifies Indian users from the tweepleindia directory as well as from location strings.
 
 Install: 
 It's meant to be run as a cron and is not a daemon. Run every ten to fifteen minutes or so.
