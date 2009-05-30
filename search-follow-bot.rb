@@ -5,9 +5,6 @@ $:.unshift("#{curr_path}/lib")
 
 require 'config_store'
 require 'twitter'
-require 'twitter_extensions'
-require 'pp'
-
 
 class SearchFollow
   attr_accessor :twitter, :config
@@ -27,13 +24,13 @@ class SearchFollow
           out "Starting to follow..."
           twitter.friendship_create(update['from_user'], true)
           out "Done!"
-          sleep 0.5
+          sleep 0.1
         rescue Twitter::NotFound
           out "User ID not found correctly, trying next"
-          sleep 0.5 and next
+          sleep 0.1 and next
         rescue Twitter::General => e
           out "Error: #{e.inspect}"
-          sleep 0.5 and next
+          sleep 0.1 and next
         end
       end
     end
