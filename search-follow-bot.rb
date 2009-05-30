@@ -47,10 +47,6 @@ class SearchFollow
     end
     false
   end
-      
-  def profile_image_for_user?(user)
-    return user['profile_image_url'].strip != ''
-  end
   
   def out(text)
     puts "#{Time.now}: #{text}" if config['debug']

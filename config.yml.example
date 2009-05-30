@@ -8,7 +8,4 @@ search_words: ['mobile', 'phone', 'internet', 'airtel', 'aircel', 'bsnl', 'mtnl'
 geocode: ['21.248422', '78.442383'] #lat, long, this is around the middle of India
 within: '750mi' #750 miles
 
-# check if profile image is set.
-profile_image_check: false
-
 debug: true
