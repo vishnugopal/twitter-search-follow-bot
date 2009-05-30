@@ -1,5 +1,5 @@
 
-module TwitterPublicTimeline
+module TwitterExtensions
   def self.included(base)
     base.class_eval do
       def public_timeline
@@ -11,6 +11,6 @@ end
 
 module Twitter
   class Base
-    include TwitterPublicTimeline
+    include TwitterExtensions
   end
 end

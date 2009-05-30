@@ -2,7 +2,14 @@
 
 The twitter search follow bot:
  * Searches twitter public timeline for configurable keywords
+ * Can restrict those users to a particular location too, and,
  * Follows users who tweet with those keywords
+
+Changes in this version:
+ * Use search rather than public timeline fetch directly.
+ * Much more effective, finds a lot more users!
+ * New configuration
+ * Now only need to run every 30 minutes rather than every other minute!
 
 Dependencies:
 sudo gem install jnunemaker-twitter --source=http://gems.github.com
@@ -11,21 +18,14 @@ Configure:
 
 config.yml should be self explanatory.
 
-You can monitor specific keywords from users in particular locations and belonging to particular directories. 
-
-Currently it identifies Indian users from the tweepleindia directory as well as from location strings.
+You can monitor specific keywords from users within a particular lat/long radius. 
 
 Install: 
-It's meant to be run as a cron and is not a daemon. Run every ten to fifteen minutes or so.
+It's meant to be run as a cron and is not a daemon. Run every thirty minutes or so.
 
 To run:
  ruby -rubygems search-follow-bot.rb
  
- 
-To run periodically, try:
- watch -n 60 "ruby -rubygems search-follow-bot.rb"
- 
-For production install on cron of course.
 
 --  
   All code is Copyright (C) Vishnu Gopal. 2009.

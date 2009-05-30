@@ -5,7 +5,7 @@ $:.unshift("#{curr_path}/lib")
 
 require 'config_store'
 require 'twitter'
-require 'twitter_public_timeline'
+require 'twitter_extensions'
 require 'pp'
 
 
@@ -19,18 +19,25 @@ class SearchFollow
     process
   end
     
-  def process
-    twitter.public_timeline.each do |update|
-      #out "Analyzing user: #{update['user']['screen_name']}, update: #{update['text']}..."
-      if relevant_update?(update)
-        pp update['user']
-        out "Found user: #{update['user']['screen_name']}(id: #{update['user']['id']}) with the tweet: #{update['text']}"
-        out "Starting to follow..."
-        twitter.friendship_create(update['user']['id'], true) #Start following!
-        out "Done!"
+  def process  
+    config['search_words'].each do |term|
+      Twitter::Search.new.geocode(config['geocode'][0], config['geocode'][1], '750mi').containing("#{term}").fetch().results.each do |update|
+        begin
+          out "Found user: #{update['from_user']}(id: #{update['from_user_id']}) with the tweet: #{update['text']}"
+          out "Starting to follow..."
+          twitter.friendship_create(update['from_user'], true)
+          out "Done!"
+          sleep 0.5
+        rescue Twitter::NotFound
+          out "User ID not found correctly, trying next"
+          sleep 0.5 and next
+        rescue Twitter::General => e
+          out "Error: #{e.inspect}"
+          sleep 0.5 and next
+        end
       end
     end
-  rescue Twitter::RateLimitExceeded
+  rescue Twitter::RateLimitExceeded, Net::HTTPServerError
     out "Rate limit exceeded, try spacing out cron intervals!"
   end
   
@@ -40,39 +47,9 @@ class SearchFollow
     end
     false
   end
-  
-  def relevant_update?(update)
-    if text_contains_any_of(update['text'], config['search_words'])
-      out "Text matched, let's see if location matches..." 
-      out "(was analyzing user: #{update['user']['screen_name']}, location: #{update['user']['location']}, update: #{update['text']})"
-      if indian_user?(update['user'])
-        out "User found to be indian too, great!"
-        out "(was analyzing user: #{update['user']['screen_name']}, location: #{update['user']['location']}, update: #{update['text']})"
-        return true
-      end
-    end
-    false
-  end
       
-  
-  def indian_user?(user)
-    if text_contains_any_of(user['location'], config['location_match'])
-      out "User #{user['screen_name']} location matched #{user['location']}, tagging as Indian."
-      return true 
-    end
-    if config['check_in_tweeple_india_directory']  
-      return in_tweeple_india_directory?(user)
-    end
-    false
-  end
-  
-  # This works by checking for friendship between tweeple_india and the current user
-  def in_tweeple_india_directory?(user)
-    if twitter.friendship_exists?("tweepleindia", user['screen_name'])
-      out "User #{user['screen_name']} found in tweeple directory. Tagging as indian"
-      return true
-    end
-    false
+  def profile_image_for_user?(user)
+    return user['profile_image_url'].strip != ''
   end
   
   def out(text)
