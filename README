@@ -7,11 +7,23 @@ The twitter search follow bot:
 Dependencies:
 sudo gem install jnunemaker-twitter --source=http://gems.github.com
 
+Configure:
+
+config.yml should be self explanatory.
+
+You can monitor 
+
 Install: 
 It's meant to be run as a cron and is not a daemon. Run every ten to fifteen minutes or so.
 
 To run:
  ruby -rubygems search-follow-bot.rb
+ 
+ 
+To run periodically, try:
+ watch -n 60 "ruby -rubygems search-follow-bot.rb"
+ 
+For production install on cron of course.
 
 --  
   All code is Copyright (C) Vishnu Gopal. 2009.

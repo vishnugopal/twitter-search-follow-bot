@@ -1,8 +1,19 @@
 
+# account credentials
 username: 'mobshare'
 password: 'our1account'
 
 # any of these words
-search_words: ['mobile', 'mms', 'mobshare', 'phone', '#mobile', '#phone', 'india', '#india', 'twitter']
+search_words: ['mobile', 'phone', 'mms', 'internet', 'twitter', 'airtel', 'aircel', 'bsnl', 'mtnl', '#ipl', '#indiavotes09']
+
+# AND: (
+# any of these words in location 
+location_match: ["india", "gurgaon", "delhi", "bombay", "kolkata", "hyderabad", "calcutta", "chennai", "noida", "bangalore"]
+# OR:
+check_in_tweeple_india_directory: true
+# )
+
+# check if profile image is set.
+profile_image_check: false
 
 debug: true
